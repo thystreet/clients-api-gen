@@ -46,7 +46,7 @@ languages:
     github_org_name: thystreet
     github_repo_name: thystreet-python-sdk
     library_version: "0.0.1"
-    version_path_template: "{{spec_version}}"
+    version_path_template: ""
   cpp-tiny:
     generation:
       default:
@@ -69,7 +69,7 @@ languages:
     github_org_name: thystreet
     github_repo_name: thystreet-pio-sdk
     library_version: "0.0.1"
-    version_path_template: "{{spec_version}}"
+    version_path_template: ""
   openapi:
     generation:
       default:
@@ -79,13 +79,10 @@ languages:
             - --remove-operation-id-prefix
             - --verbose
             description: Generate code using openapi-generator
-    downstream_templates:
-      downstream-templates/cpp-tiny/library.json: "v1/library.json"
-      downstream-templates/cpp-tiny/root.cert: "v1/root.cert"
     github_org_name: thystreet
     github_repo_name: docs.github.com
     library_version: "0.0.1"
-    version_path_template: "{{spec_version}}"
+    version_path_template: ""
 spec_sections:
   v1:
     - thystreet.yaml
