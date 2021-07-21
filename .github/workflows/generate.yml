@@ -40,8 +40,8 @@ jobs:
       - name: Push client repos
         if: github.event_name == 'push'
         env:
-          APIGENTOOLS_DEFAULT_PUSH_BRANCH: develop
+          APIGENTOOLSGIT_AUTHOR_NAME: Akash
           APIGENTOOLS_GIT_VIA_HTTPS: true
           APIGENTOOLS_GIT_VIA_HTTPS_OAUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          apigentools push --git-name Akash --git-email akash@thystreet.com --force
+          apigentools push
