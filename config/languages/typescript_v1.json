@@ -1,0 +1,8 @@
+{
+  "legacyDiscriminatorBehavior": false,
+  "moduleName": "ThyStreet",
+  "npmName": "@thystreet/sdk",
+  "projectDescription": "Thy Street APIs are completely RESTful and all our responses are returned in JSON.",
+  "npmRepository": "https://registry.npmjs.org/",
+  "platform": "browser"
+}

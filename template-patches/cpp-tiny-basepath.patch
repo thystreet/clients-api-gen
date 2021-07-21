@@ -1,0 +1,30 @@
+diff --git a/cpp-tiny/service/AbstractService.cpp.mustache b/cpp-tiny/service/AbstractService.cpp.mustache
+index 0c056c85..378d7aca 100644
+--- a/cpp-tiny/service/AbstractService.cpp.mustache
++++ b/cpp-tiny/service/AbstractService.cpp.mustache
+@@ -7,6 +7,10 @@ void Tiny::AbstractService::begin(std::string url){
+ }
+ {{/isESP8266}}
+ 
++void Tiny::AbstractService::setAuthorization(const char *username, const char *password)
++{
++    http.setAuthorization(username, password);
++}
+ 
+ {{#isESP32}}
+ void Tiny::AbstractService::begin(std::string url){
+diff --git a/cpp-tiny/service/AbstractService.h.mustache b/cpp-tiny/service/AbstractService.h.mustache
+index 7dc46b5b..db8a62da 100644
+--- a/cpp-tiny/service/AbstractService.h.mustache
++++ b/cpp-tiny/service/AbstractService.h.mustache
+@@ -21,7 +21,9 @@ HTTPClient http;
+ {{#isESP8266}}
+ WiFiClient client;
+ {{/isESP8266}}
+-std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to your url
++std::string basepath = "{{basePath}}"; // TODO: change to your url
++
++void setAuthorization(const char *username, const char *password);
+ 
+ void begin(std::string url);
+ 

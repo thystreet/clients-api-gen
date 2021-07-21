@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: ThyStreet
+  description: Thy Street APIs are completely RESTful and all our responses are
+    returned in JSON.
+  version: 0.0.1
+  contact:
+    name: Support
+    url: https://thystreet.com/support
+    email: support@thystreet.com
+  termsOfService: /policies/tos
+tags: []
+servers:
+  - url: https://cheffy-api.thystreet.com/api/v1
+    description: Thystreet public API for controlling your device details
+    variables: {}
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+      name: thystreet-auth
+      description: Base64 format of api_key:api_secret
+  schemas:
+    DeviceStatusDto:
+      type: object
+      properties:
+        deviceId:
+          type: string
+          description: Device ID
+          nullable: false
+        available:
+          type: boolean
+          description: Set current device availablity
+          nullable: false
+      required:
+        - deviceId
+        - available
+security:
+  - thystreet-auth: []
+paths:
+  /device/status:
+    put:
+      operationId: DeviceController_setStatus
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceStatusDto"
+      responses:
+        "200":
+          description: Device status has been successfully enabled.
+        "401":
+          description: Unauthorized.
+        "403":
+          description: Forbidden.
+      tags:
+        - Device
+      security:
+        - thystreet-auth: []

@@ -1,0 +1,39 @@
+{
+  "name": "sdk",
+  "version": "0.0.3",
+  "description": "SDK for controlling your https://thystreet.com devices",
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://docs.thystreet.com",
+  "authors":{
+    "name": "Akash",
+    "email": "akash@thystreet.com",
+    "maintainer": true
+  },
+  "dependencies": {
+    "bourne": "https://github.com/steinwurf/bourne.git",
+    "HTTPClient": "*"
+  },
+  "build": {
+    "srcDir": "lib",
+    "includeDir": "lib",
+    "extraScript": "pre_compiling_bourne.py",
+    "flags": [
+      "-std=gnu++14",
+      "-I lib/Models",
+      "-I lib/service"
+    ],
+    "unflags": "-std=gnu++11"
+  },
+  "framework": "arduino",
+  "export": {
+    "include": [
+        "lib/**/*.[ch]pp",
+        "lib/**/*.h",
+        "pre_compiling_bourne.py",
+        "root.cert"
+    ],
+    "exclude": [
+      "lib/TestFiles"
+    ]
+   }
+}
