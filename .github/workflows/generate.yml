@@ -30,7 +30,7 @@ jobs:
 
       - name: Generate clients
         env:
-          APIGENTOOLS_GIT_VIA_HTTPS: true
+          APIGENTOOLS_GIT_VIA_HTTPS: false
           APIGENTOOLS_GIT_VIA_HTTPS_OAUTH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: apigentools generate --clone-repo
 
@@ -41,7 +41,7 @@ jobs:
         if: github.event_name == 'push'
         env:
           APIGENTOOLSGIT_AUTHOR_NAME: Akash
-          APIGENTOOLS_GIT_VIA_HTTPS: true
-          APIGENTOOLS_GIT_VIA_HTTPS_OAUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+          APIGENTOOLS_GIT_VIA_HTTPS: false
+          #APIGENTOOLS_GIT_VIA_HTTPS_OAUTH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           apigentools push
