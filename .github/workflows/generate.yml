@@ -43,4 +43,4 @@ jobs:
           APIGENTOOLS_GIT_VIA_HTTPS: true
           APIGENTOOLS_GIT_VIA_HTTPS_OAUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          apigentools push --git-name Akash --git-email akash@thystreet.com --default-branch develop
+          apigentools push --git-name Akash --git-email akash@thystreet.com
