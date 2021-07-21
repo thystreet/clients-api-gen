@@ -32,7 +32,7 @@ jobs:
         env:
           APIGENTOOLS_GIT_VIA_HTTPS: true
           APIGENTOOLS_GIT_VIA_HTTPS_OAUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: apigentools generate --clone-repo
+        run: apigentools generate
 
       - name: Align permissions of generated code
         run:
