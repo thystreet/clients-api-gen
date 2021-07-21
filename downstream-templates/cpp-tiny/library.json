@@ -1,6 +1,6 @@
 {
-  "name": "sdk",
-  "version": "0.0.3",
+  "name": "thystreet",
+  "version": "0.0.5",
   "description": "SDK for controlling your https://thystreet.com devices",
   "license": "AGPL-3.0-or-later",
   "homepage": "https://docs.thystreet.com",
@@ -29,6 +29,8 @@
     "include": [
         "lib/**/*.[ch]pp",
         "lib/**/*.h",
+        "examples/**/*.[ch]pp",
+        "examples/**/*.h",
         "pre_compiling_bourne.py",
         "root.cert"
     ],
