@@ -37,13 +37,6 @@ jobs:
       - name: Align permissions of generated code
         run: |
           sudo chown -R ${USER}:${USER} generated
-      - name: Remote Urls
-        run : |
-          cd generated/thystreet-pio-sdk 
-          git remote -v
-          cd ../thystreet-javascript-sdk 
-          git remote -v
-          
       - name: Push client repos
         if: github.event_name == 'push'
         env:
@@ -52,4 +45,4 @@ jobs:
         run: |
           git config --global user.email "akash@thystreet.com"
           git config --global user.name "Akash"
-          apigentools --verbose push
+          apigentools push
