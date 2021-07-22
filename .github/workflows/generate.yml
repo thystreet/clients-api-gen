@@ -31,7 +31,7 @@ jobs:
       - name: Generate clients
         env:
           APIGENTOOLS_GIT_VIA_HTTPS: true
-          APIGENTOOLS_GIT_VIA_HTTPS_INSTALLATION_ACCESS_TOKEN: ${{ github.token }}
+          APIGENTOOLS_GIT_VIA_HTTPS_INSTALLATION_ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
         run: apigentools generate --clone-repo
 
       - name: Align permissions of generated code
@@ -41,7 +41,7 @@ jobs:
         if: github.event_name == 'push'
         env:
           APIGENTOOLS_GIT_VIA_HTTPS: true
-          APIGENTOOLS_GIT_VIA_HTTPS_INSTALLATION_ACCESS_TOKEN: ${{ github.token }}
+          APIGENTOOLS_GIT_VIA_HTTPS_INSTALLATION_ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config --global user.email "akash@thystreet.com"
           git config --global user.name "Akash"
