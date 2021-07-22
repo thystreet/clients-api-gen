@@ -41,7 +41,7 @@ jobs:
         run : |
           cd generated/thystreet-pio-sdk 
           git remote -v
-          cd generated/thystreet-javascript-sdk 
+          cd ../thystreet-javascript-sdk 
           git remote -v
           
       - name: Push client repos
