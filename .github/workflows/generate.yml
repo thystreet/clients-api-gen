@@ -37,6 +37,13 @@ jobs:
       - name: Align permissions of generated code
         run: |
           sudo chown -R ${USER}:${USER} generated
+      - name: Remote Urls
+        run : |
+          cd generated/thystreet-pio-sdk 
+          git remote -v
+          cd generated/thystreet-javascript-sdk 
+          git remote -v
+          
       - name: Push client repos
         if: github.event_name == 'push'
         env:
