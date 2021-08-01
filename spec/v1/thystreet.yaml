@@ -82,9 +82,12 @@ info:
   version: 0.0.1
   contact:
     name: Support
-    url: https://thystreet.com/support
+    url: https://github.com/thystreet/thystreet/discussions
     email: support@thystreet.com
-  termsOfService: /policies/tos
+  termsOfService: https://thystreet.com/policies/tos
+  x-logo:
+    url: https://thystreet.com/svg/logo.svg
+    altText: Thy Street logo
 tags: []
 servers:
   - url: https://cheffy-api.thystreet.com/api/v1
