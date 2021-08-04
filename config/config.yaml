@@ -18,7 +18,7 @@ languages:
     github_org_name: thystreet
     github_repo_name: thystreet-javascript-sdk
     library_version: "0.0.1"
-    version_path_template: "{{spec_version}}"
+    version_path_template: ""
   typescript:
     generation:
       default:
@@ -33,7 +33,7 @@ languages:
     github_org_name: thystreet
     github_repo_name: thystreet-typescript-sdk
     library_version: "0.0.1"
-    version_path_template: "{{spec_version}}"
+    version_path_template: ""
   python:
     generation:
       default:
