@@ -2,7 +2,7 @@ config_version: '1.4'
 container_opts:
   image: datadog/apigentools:latest
   environment:
-    OPENAPI_GENERATOR_VERSION: 5.2.0
+    OPENAPI_GENERATOR_VERSION: 5.4.0
 languages:
   javascript:
     generation:
@@ -64,8 +64,8 @@ languages:
             - --verbose
             description: Generate code using openapi-generator
     downstream_templates:
-      downstream-templates/cpp-tiny/library.json: "v1/library.json"
-      downstream-templates/cpp-tiny/root.cert: "v1/root.cert"
+      downstream-templates/cpp-tiny/library.json: "library.json"
+      downstream-templates/cpp-tiny/root.cert: "root.cert"
     github_org_name: thystreet
     github_repo_name: thystreet-pio-sdk
     library_version: "0.0.1"
