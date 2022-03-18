@@ -1,8 +1,8 @@
 config_version: '1.4'
 container_opts:
   image: datadog/apigentools:latest
-  environment:
-    OPENAPI_GENERATOR_VERSION: 5.4.0
+  # environment:
+  #   OPENAPI_GENERATOR_VERSION: 5.4.0
 languages:
   javascript:
     generation:
