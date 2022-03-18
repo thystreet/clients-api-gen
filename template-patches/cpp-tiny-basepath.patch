@@ -1,30 +1,63 @@
-diff --git a/cpp-tiny/service/AbstractService.cpp.mustache b/cpp-tiny/service/AbstractService.cpp.mustache
-index 0c056c85..378d7aca 100644
---- a/cpp-tiny/service/AbstractService.cpp.mustache
-+++ b/cpp-tiny/service/AbstractService.cpp.mustache
-@@ -7,6 +7,10 @@ void Tiny::AbstractService::begin(std::string url){
- }
+diff --git a/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache b/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache
+index 56170a91..6293d988 100644
+--- a/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache
++++ b/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache
+@@ -1,4 +1,5 @@
+-#include "PetApi.h"
++#include "DeviceApi.h"
++#include "OrderApi.h"
+ {{#isESP8266}}
+ #include "ESP8266WiFi.h"
  {{/isESP8266}}
+@@ -30,11 +31,6 @@ void setup(){
+     Serial.print("IP address set: ");
+     Serial.println(WiFi.localIP());
+ 
+-    Tiny::PetApi petapi;
+-    auto resp = petapi.getPetById(10);
+-    Serial.println(resp.code);
+-    Tiny::Pet pet = resp.obj;
+-    Serial.println(pet.toJson().dump().c_str());
+ }
+ 
+ void loop(){}
+diff --git a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache
+index d164c311..b43efe17 100644
+--- a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache
++++ b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache
+@@ -21,6 +21,12 @@ void Tiny::Service::begin(std::string url){
+ }
+ {{/isESP32}}
  
 +void Tiny::AbstractService::setAuthorization(const char *username, const char *password)
 +{
 +    http.setAuthorization(username, password);
 +}
- 
- {{#isESP32}}
- void Tiny::AbstractService::begin(std::string url){
-diff --git a/cpp-tiny/service/AbstractService.h.mustache b/cpp-tiny/service/AbstractService.h.mustache
-index 7dc46b5b..db8a62da 100644
---- a/cpp-tiny/service/AbstractService.h.mustache
-+++ b/cpp-tiny/service/AbstractService.h.mustache
-@@ -21,7 +21,9 @@ HTTPClient http;
- {{#isESP8266}}
- WiFiClient client;
- {{/isESP8266}}
--std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to your url
-+std::string basepath = "{{basePath}}"; // TODO: change to your url
++ 
 +
-+void setAuthorization(const char *username, const char *password);
- 
- void begin(std::string url);
+ void Tiny::Service::addHeader(std::string key, std::string value){
+     http.addHeader(String(key.c_str()), String(value.c_str()));
+ }
+diff --git a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache
+index a2f70c1a..2678da52 100644
+--- a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache
++++ b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache
+@@ -22,7 +22,8 @@ class Service {
+         {{#isESP8266}}
+         WiFiClient client;
+         {{/isESP8266}}
+-        std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to your url
++        std::string basepath = "{{basePath}}";
++        void setAuthorization(const char *username, const char *password);
+         std::string url = "";
+         std::string payload = "";
+         std::list<std::tuple<std::string, std::string>> queryParams;
+@@ -39,7 +40,7 @@ class Service {
+         // Go and comment out a certificate in root.cert, if you get an error here
+         // Certificate from file
+         const char* test_root_ca =
+-        #include "../../root.cert"
++        #include "../../v1/root.cert"
+         ;
+         {{/isESP32}}
  

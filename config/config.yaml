@@ -50,13 +50,13 @@ languages:
   cpp-tiny:
     generation:
       default:
-        # templates:
-        #   patches:
-        #     - template-patches/cpp-tiny-basepath.patch
-        #   source:
-        #     type: openapi-jar
-        #     jar_path: /usr/bin/openapi-generator-cli.jar
-        #     templates_dir: cpp-tiny
+        templates:
+          patches:
+            - template-patches/cpp-tiny-basepath.patch
+          source:
+            type: openapi-jar
+            jar_path: /usr/bin/openapi-generator-cli.jar
+            templates_dir: cpp-tiny
         commands:
           - commandline:
             - function: openapi_generator_generate # expands to the default generation command
@@ -65,7 +65,7 @@ languages:
             description: Generate code using openapi-generator
     downstream_templates:
       downstream-templates/cpp-tiny/library.json: "library.json"
-      downstream-templates/cpp-tiny/root.cert: "root.cert"
+      downstream-templates/cpp-tiny/root.cert: "v1/root.cert"
     github_org_name: thystreet
     github_repo_name: thystreet-pio-sdk
     library_version: "0.0.1"
