@@ -1,15 +1,15 @@
 openapi: 3.0.0
 paths:
-  /device/status:
+  /device/details:
     put:
-      operationId: DeviceController_setStatus
+      operationId: setDetails
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DeviceStatusDto"
+              $ref: "#/components/schemas/SetDeviceDetailsDto"
       responses:
         "200":
           description: Device status has been successfully enabled.
@@ -21,7 +21,7 @@ paths:
         - Device
   /device/token:
     put:
-      operationId: DeviceController_setDeviceToken
+      operationId: setToken
       parameters: []
       requestBody:
         required: true
@@ -40,7 +40,7 @@ paths:
         - Device
   "/device/generate/{deviceId}":
     get:
-      operationId: DeviceController_generateToken
+      operationId: generateToken
       parameters:
         - name: deviceId
           required: true
@@ -56,9 +56,28 @@ paths:
           description: Forbidden.
       tags:
         - Device
+  "/order/params/{orderToken}":
+    get:
+      operationId: getOrderById
+      parameters:
+        - name: orderToken
+          required: true
+          in: path
+          description: This is the id recieved from the qrcode
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns order information for the given id
+        "401":
+          description: Unauthorized.
+        "403":
+          description: Forbidden.
+      tags:
+        - Order
   /order/status:
     put:
-      operationId: OrderController_setStatus
+      operationId: setStatus
       parameters: []
       requestBody:
         required: true
@@ -76,10 +95,11 @@ paths:
       tags:
         - Order
 info:
-  title: ThyStreet
-  description: Thy Street APIs are completely RESTful and all our responses are
+  title: Thy Street
+  description: These are API's to easily manage your Thy Street device public
+    pages. Thy Street APIs are completely RESTful and all our responses are
     returned in JSON.
-  version: 0.0.1
+  version: 0.0.2
   contact:
     name: Support
     url: https://github.com/thystreet/thystreet/discussions
@@ -100,20 +120,20 @@ components:
       scheme: basic
       description: Base64 format of api_key:api_secret
   schemas:
-    DeviceStatusDto:
+    SetDeviceDetailsDto:
       type: object
       properties:
         deviceId:
           type: string
           description: Device ID
           nullable: false
-        available:
+        tariff:
           type: boolean
-          description: Set current device availablity
+          description: Toggle device tariff on public page
           nullable: false
       required:
         - deviceId
-        - available
+        - tariff
     DeviceTokenDto:
       type: object
       properties:
@@ -143,6 +163,7 @@ components:
           enum:
             - CONFIRMED
             - COMPLETED
+            - FAILED
           nullable: false
       required:
         - orderId
