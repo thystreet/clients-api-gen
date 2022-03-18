@@ -1,8 +1,8 @@
 config_version: '1.4'
 container_opts:
   image: datadog/apigentools:latest
-  # environment:
-  #   OPENAPI_GENERATOR_VERSION: 5.4.0
+  environment:
+    OPENAPI_GENERATOR_VERSION: 5.4.0
 languages:
   javascript:
     generation:
@@ -54,9 +54,10 @@ languages:
           patches:
             - template-patches/cpp-tiny-basepath.patch
           source:
-            type: openapi-jar
-            jar_path: /usr/bin/openapi-generator-cli.jar
+            type: openapi-git
+            git_committish: "v5.4.0" # git committish to checkout before extracting the templates
             templates_dir: cpp-tiny
+            system: true
         commands:
           - commandline:
             - function: openapi_generator_generate # expands to the default generation command
