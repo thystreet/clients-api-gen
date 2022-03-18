@@ -1,7 +1,7 @@
-diff --git a/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache b/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache
+diff --git a/cpp-tiny/main.mustache b/cpp-tiny/main.mustache
 index 56170a91..6293d988 100644
---- a/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache
-+++ b/modules/openapi-generator/src/main/resources/cpp-tiny/main.mustache
+--- a/cpp-tiny/main.mustache
++++ b/cpp-tiny/main.mustache
 @@ -1,4 +1,5 @@
 -#include "PetApi.h"
 +#include "DeviceApi.h"
@@ -21,10 +21,10 @@ index 56170a91..6293d988 100644
  }
  
  void loop(){}
-diff --git a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache
+diff --git a/cpp-tiny/service/Service.cpp.mustache b/cpp-tiny/service/Service.cpp.mustache
 index d164c311..b43efe17 100644
---- a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache
-+++ b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.cpp.mustache
+--- a/cpp-tiny/service/Service.cpp.mustache
++++ b/cpp-tiny/service/Service.cpp.mustache
 @@ -21,6 +21,12 @@ void Tiny::Service::begin(std::string url){
  }
  {{/isESP32}}
@@ -38,10 +38,10 @@ index d164c311..b43efe17 100644
  void Tiny::Service::addHeader(std::string key, std::string value){
      http.addHeader(String(key.c_str()), String(value.c_str()));
  }
-diff --git a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache
+diff --git a/cpp-tiny/service/Service.h.mustache b/cpp-tiny/service/Service.h.mustache
 index a2f70c1a..2678da52 100644
---- a/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache
-+++ b/modules/openapi-generator/src/main/resources/cpp-tiny/service/Service.h.mustache
+--- a/cpp-tiny/service/Service.h.mustache
++++ b/cpp-tiny/service/Service.h.mustache
 @@ -22,7 +22,8 @@ class Service {
          {{#isESP8266}}
          WiFiClient client;
