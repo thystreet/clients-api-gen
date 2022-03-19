@@ -81,7 +81,7 @@ languages:
             - --verbose
             description: Generate code using openapi-generator
     github_org_name: thystreet
-    github_repo_name: thystreet.github.io
+    github_repo_name: docs.thystreet.com
     library_version: "0.0.1"
     version_path_template: ""
 spec_sections:
