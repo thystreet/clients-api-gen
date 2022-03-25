@@ -1,31 +1,77 @@
+diff --git a/cpp-tiny/README.mustache b/cpp-tiny/README.mustache
+index dc417d1e..3350b54a 100644
+--- a/cpp-tiny/README.mustache
++++ b/cpp-tiny/README.mustache
+@@ -1,31 +1,9 @@
+-# Documentation for OpenAPI Petstore
++# Documentation for Thy Street SDK
+ This is a client generator for microcontrollers on the Espressif32 platform and the Arduino framework
+-After the client have been generated, you have to change these following variables:
+-- root.cert | Provide your service root certificate.
+-- src/main.cpp | Change wifi name
+-- src/main.cpp | Change wifi password
+-- lib/service/AbstractService.h | Change to your url
+ 
+-# Documentation for {{#openAPI}}{{#info}}{{title}} {{version}} Tiny client cpp (Arduino) {{/info}}{{/openAPI}}
++# Documentation for {{#openAPI}}{{#info}}{{title}} {{version}} cpp client (Arduino) {{/info}}{{/openAPI}}
+ 
+-The project is structured like this:
+-```
+-samples/client/petstore/tiny/cpp/
+-├── lib
+-│   ├── Models
+-│   ├── service
+-│   └── TestFiles
+-├── platformio.ini
+-├── pre_compiling_bourne.py
+-├── README.md
+-├── root.cert
+-├── src
+-│   └── main.cpp
+-└── test
+-    └── RunTests.cpp
+-```
+-
+-All URIs are relative to {{{scheme}}}://{{{host}}}{{{basePath}}}
++All URIs are relative to {{{basePath}}}
+ {{#apiInfo}}{{#apis}}{{#operations}}
+ ### {{classname}}
+ |Method | HTTP request | Description|
 diff --git a/cpp-tiny/main.mustache b/cpp-tiny/main.mustache
-index 56170a91..6293d988 100644
+index 56170a91..4876405b 100644
 --- a/cpp-tiny/main.mustache
 +++ b/cpp-tiny/main.mustache
-@@ -1,4 +1,5 @@
+@@ -1,4 +1,4 @@
 -#include "PetApi.h"
 +#include "DeviceApi.h"
-+#include "OrderApi.h"
  {{#isESP8266}}
  #include "ESP8266WiFi.h"
  {{/isESP8266}}
-@@ -30,11 +31,6 @@ void setup(){
+@@ -30,11 +30,15 @@ void setup(){
      Serial.print("IP address set: ");
      Serial.println(WiFi.localIP());
  
 -    Tiny::PetApi petapi;
 -    auto resp = petapi.getPetById(10);
--    Serial.println(resp.code);
++    Tiny::DeviceApi api;
++    api.setAuthorization(apiKey, apiSecret);
++
++    Tiny::DeviceStatusDto dto;
++    dto.setAvailable(true);
++    dto.setDeviceId("device-id");
++    auto resp = api.setStatus(dto);
+     Serial.println(resp.code);
 -    Tiny::Pet pet = resp.obj;
 -    Serial.println(pet.toJson().dump().c_str());
++    Serial.println(resp.obj.c_str());
  }
  
  void loop(){}
 diff --git a/cpp-tiny/root.cert.mustache b/cpp-tiny/root.cert.mustache
-index bb78f18e..2f7b722c 100644
+index bb78f18e..e334a431 100644
 --- a/cpp-tiny/root.cert.mustache
 +++ b/cpp-tiny/root.cert.mustache
-@@ -1,53 +1,94 @@
+@@ -1,53 +1,64 @@
 -// TODO: Provide your service root certificate.
 -//    Below is two examples of root certificates.
 -
@@ -57,37 +103,7 @@ index bb78f18e..2f7b722c 100644
 -
 -// Amazon_Root_CA_1.pem
 -
-+"MIIFZTCCBE2gAwIBAgIQQGvErqKmXGsKAAAAALyPcTANBgkqhkiG9w0BAQsFADBG\n" \
-+"MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM\n" \
-+"QzETMBEGA1UEAxMKR1RTIENBIDFENDAeFw0yMTA0MDEwNDU0MzdaFw0yMTA2MzAw\n" \
-+"NTU0MzdaMCMxITAfBgNVBAMTGGNoZWZmeS1hcGkudGh5c3RyZWV0LmNvbTCCASIw\n" \
-+"DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMhmLXUST/Xztdf/55C1I/gwK6hM\n" \
-+"aquTlCWVOnSCjv4fE125LydERNTRQ1Q1xkqCeiDzYjXyb4D5QBr8gQxa5o7FUq6L\n" \
-+"4o2FCAHgJ9kcfsAd/qHHallpej+s+qUKXnkTVBInxJDS3VGGd6BOkPCqFE2TSINz\n" \
-+"DDT67YFs0PJdAFMivTQr3SYoFcEVXMZoiQi7XeQ2SLVsDhNMA1NhGwoZlVRojcgw\n" \
-+"IOwBKpLsu0pQSifbwr+dAE/deYrSmb//h2AufbepLABYTddMG6xy2HOYq8lnJeF9\n" \
-+"6ktCDBH8bBiUZXEegjNSEUrOxqQkZ2JlzP6dno/6OjM4JTJYKowTLspb3eMCAwEA\n" \
-+"AaOCAnAwggJsMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAM\n" \
-+"BgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSDt0z9EZEV6mchwJEmVDyGz7g2TTAfBgNV\n" \
-+"HSMEGDAWgBQl4hgOsleRlCrl1F2GkIPeU7O4kjBqBggrBgEFBQcBAQReMFwwJwYI\n" \
-+"KwYBBQUHMAGGG2h0dHA6Ly9vY3NwLnBraS5nb29nL2d0czFkNDAxBggrBgEFBQcw\n" \
-+"AoYlaHR0cDovL3BraS5nb29nL3JlcG8vY2VydHMvZ3RzMWQ0LmRlcjAjBgNVHREE\n" \
-+"HDAaghhjaGVmZnktYXBpLnRoeXN0cmVldC5jb20wIQYDVR0gBBowGDAIBgZngQwB\n" \
-+"AgEwDAYKKwYBBAHWeQIFAzA8BgNVHR8ENTAzMDGgL6AthitodHRwOi8vY3Jscy5w\n" \
-+"a2kuZ29vZy9ndHMxZDQvNUlEWlVMMEQ4OGsuY3JsMIIBAwYKKwYBBAHWeQIEAgSB\n" \
-+"9ASB8QDvAHYAXNxDkv7mq0VEsV6a1FbmEDf71fpH3KFzlLJe5vbHDsoAAAF4jAfI\n" \
-+"jQAABAMARzBFAiAxGG3XI1GMhoMDDEf5+g2h7eEy3xgQgDqIU+7i/D07sAIhAPDO\n" \
-+"YFqkpb4K2kxIEpGXVDFIgGADVf3l/OViBmaVKNLhAHUAfT7y+I//iFVoJMLAyp5S\n" \
-+"iXkrxQ54CX8uapdomX4i8NcAAAF4jAfKXgAABAMARjBEAiBAexyp7jv3ooCw5zXz\n" \
-+"41xR8k4soAmz7Ei+44l7hW9ATgIgFpP3JXvisdEKn5ZuiU4FWf+n8oxXhYD0KCkI\n" \
-+"NZ7CYncwDQYJKoZIhvcNAQELBQADggEBAIYf+DPnPSNp8m2idwwWm3U4xu5cdlzz\n" \
-+"/+6ej0Kr6YN38aiP+lQq5R3cR/mCdundxTPA3Cep8n4fP+lzT9S88bS085Fcr2Cm\n" \
-+"vzV7BjFt4jb+jwhW04TprpXOUFrmSMYGDc0yBywWNvktGLYgs+HRy35izRRg19eq\n" \
-+"6bQEr/V5mHY1GnQOGCfP3dMqi3t+jPOcL72G8PTxgIOZYs427+R2Nv9C7qmwW9Ab\n" \
-+"OcLf6lWgaj13eKy1RTqsT+UWe9aV3pKsnJ13vpqZCEZTBE0UHcgJ52pFfx+XUK6l\n" \
-+"yU9HZuXTXIaI9Q1FRmuKasH8xT5jlaweHb3qDfOFHi+bPPx9erKQ968=\n" \
-+"-----END CERTIFICATE-----\n" \
- "-----BEGIN CERTIFICATE-----\n" \
+-"-----BEGIN CERTIFICATE-----\n" \
 -"MIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\n" \
 -"ADA5MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQQDExBBbWF6\n" \
 -"b24gUm9vdCBDQSAxMB4XDTE1MDUyNjAwMDAwMFoXDTM4MDExNzAwMDAwMFowOTEL\n" \
@@ -140,42 +156,43 @@ index bb78f18e..2f7b722c 100644
 -
 -
 +"-----BEGIN CERTIFICATE-----\n" \
-+"MIIFYjCCBEqgAwIBAgIQd70NbNs2+RrqIQ/E8FjTDTANBgkqhkiG9w0BAQsFADBX\n" \
-+"MQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTEQMA4GA1UE\n" \
-+"CxMHUm9vdCBDQTEbMBkGA1UEAxMSR2xvYmFsU2lnbiBSb290IENBMB4XDTIwMDYx\n" \
-+"OTAwMDA0MloXDTI4MDEyODAwMDA0MlowRzELMAkGA1UEBhMCVVMxIjAgBgNVBAoT\n" \
-+"GUdvb2dsZSBUcnVzdCBTZXJ2aWNlcyBMTEMxFDASBgNVBAMTC0dUUyBSb290IFIx\n" \
-+"MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAthECix7joXebO9y/lD63\n" \
-+"ladAPKH9gvl9MgaCcfb2jH/76Nu8ai6Xl6OMS/kr9rH5zoQdsfnFl97vufKj6bwS\n" \
-+"iV6nqlKr+CMny6SxnGPb15l+8Ape62im9MZaRw1NEDPjTrETo8gYbEvs/AmQ351k\n" \
-+"KSUjB6G00j0uYODP0gmHu81I8E3CwnqIiru6z1kZ1q+PsAewnjHxgsHA3y6mbWwZ\n" \
-+"DrXYfiYaRQM9sHmklCitD38m5agI/pboPGiUU+6DOogrFZYJsuB6jC511pzrp1Zk\n" \
-+"j5ZPaK49l8KEj8C8QMALXL32h7M1bKwYUH+E4EzNktMg6TO8UpmvMrUpsyUqtEj5\n" \
-+"cuHKZPfmghCN6J3Cioj6OGaK/GP5Afl4/Xtcd/p2h/rs37EOeZVXtL0m79YB0esW\n" \
-+"CruOC7XFxYpVq9Os6pFLKcwZpDIlTirxZUTQAs6qzkm06p98g7BAe+dDq6dso499\n" \
-+"iYH6TKX/1Y7DzkvgtdizjkXPdsDtQCv9Uw+wp9U7DbGKogPeMa3Md+pvez7W35Ei\n" \
-+"Eua++tgy/BBjFFFy3l3WFpO9KWgz7zpm7AeKJt8T11dleCfeXkkUAKIAf5qoIbap\n" \
-+"sZWwpbkNFhHax2xIPEDgfg1azVY80ZcFuctL7TlLnMQ/0lUTbiSw1nH69MG6zO0b\n" \
-+"9f6BQdgAmD06yK56mDcYBZUCAwEAAaOCATgwggE0MA4GA1UdDwEB/wQEAwIBhjAP\n" \
-+"BgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBTkrysmcRorSCeFL1JmLO/wiRNxPjAf\n" \
-+"BgNVHSMEGDAWgBRge2YaRQ2XyolQL30EzTSo//z9SzBgBggrBgEFBQcBAQRUMFIw\n" \
-+"JQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnBraS5nb29nL2dzcjEwKQYIKwYBBQUH\n" \
-+"MAKGHWh0dHA6Ly9wa2kuZ29vZy9nc3IxL2dzcjEuY3J0MDIGA1UdHwQrMCkwJ6Al\n" \
-+"oCOGIWh0dHA6Ly9jcmwucGtpLmdvb2cvZ3NyMS9nc3IxLmNybDA7BgNVHSAENDAy\n" \
-+"MAgGBmeBDAECATAIBgZngQwBAgIwDQYLKwYBBAHWeQIFAwIwDQYLKwYBBAHWeQIF\n" \
-+"AwMwDQYJKoZIhvcNAQELBQADggEBADSkHrEoo9C0dhemMXoh6dFSPsjbdBZBiLg9\n" \
-+"NR3t5P+T4Vxfq7vqfM/b5A3Ri1fyJm9bvhdGaJQ3b2t6yMAYN/olUazsaL+yyEn9\n" \
-+"WprKASOshIArAoyZl+tJaox118fessmXn1hIVw41oeQa1v1vg4Fv74zPl6/AhSrw\n" \
-+"9U5pCZEt4Wi4wStz6dTZ/CLANx8LZh1J7QJVj2fhMtfTJr9w4z30Z209fOU0iOMy\n" \
-+"+qduBmpvvYuR7hZL6Dupszfnw0Skfths18dG9ZKb59UhvmaSGZRVbNQpsg3BZlvi\n" \
-+"d0lIKO2d1xozclOzgjXPYovJJIultzkMu34qQb9Sz/yilrbCgj8=\n" \
++"MIIFczCCBFugAwIBAgIQOmRmLLg9lPAQAAAAAA3UcjANBgkqhkiG9w0BAQsFADBG\n" \
++"MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM\n" \
++"QzETMBEGA1UEAxMKR1RTIENBIDFENDAeFw0yMjAzMjAyMDEyMzRaFw0yMjA2MTgy\n" \
++"MDEyMzNaMCMxITAfBgNVBAMTGGNoZWZmeS1hcGkudGh5c3RyZWV0LmNvbTCCASIw\n" \
++"DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJmU7JLhUOQhY+Wa8Qd4S0fIsSAo\n" \
++"YZOvvbabbKprj7BPOPyy0zfRwNRFy9bhWUDekJG+P99CvCmPQabq9Iq6l0k830wd\n" \
++"uVCONgYPjcylB6RkWho27ODlVPvHpU5YJSdbE4lIZrYz/hOhjiPOHNkjtalVkz6s\n" \
++"PINGd3GXF2SQB9d9rHkVwALLYFsiqRWcSNFUm4ZiaVD+Oehd9ew4vF8t1yvvzz8o\n" \
++"FaLioRYE644Ym+z6VgYfScAYaxpK3idV9+XPUfhLDmMcd7Go7isdOFGKo3z1bWuB\n" \
++"hcXvZ/Ew07CFTdvAd31OmrEgAVhcilf3rH1nuUBUwk1WvRd4GBNNu59hmOECAwEA\n" \
++"AaOCAn4wggJ6MA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAM\n" \
++"BgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRdpBlHUNt5HdXCX/V2XruUlH2VZDAfBgNV\n" \
++"HSMEGDAWgBQl4hgOsleRlCrl1F2GkIPeU7O4kjB4BggrBgEFBQcBAQRsMGowNQYI\n" \
++"KwYBBQUHMAGGKWh0dHA6Ly9vY3NwLnBraS5nb29nL3MvZ3RzMWQ0L2NvVXQ2TWk2\n" \
++"eXpNMDEGCCsGAQUFBzAChiVodHRwOi8vcGtpLmdvb2cvcmVwby9jZXJ0cy9ndHMx\n" \
++"ZDQuZGVyMCMGA1UdEQQcMBqCGGNoZWZmeS1hcGkudGh5c3RyZWV0LmNvbTAhBgNV\n" \
++"HSAEGjAYMAgGBmeBDAECATAMBgorBgEEAdZ5AgUDMDwGA1UdHwQ1MDMwMaAvoC2G\n" \
++"K2h0dHA6Ly9jcmxzLnBraS5nb29nL2d0czFkNC9fcmFhWWJfbktQZy5jcmwwggED\n" \
++"BgorBgEEAdZ5AgQCBIH0BIHxAO8AdQBByMqx3yJGShDGoToJQodeTjGLGwPr60vH\n" \
++"aPCQYpYG9gAAAX+pORGAAAAEAwBGMEQCIC/QjvEUK1oLbQmhsAHigL/917OuwYYJ\n" \
++"M8F21oRlCb4WAiB2G3baQocS1xwJk6Hh2lisfUp9E/Rp+vW8wqQTy/YwCQB2AEal\n" \
++"Vet1+pEgMLWiiWn0830RLEF0vv1JuIWr8vxw/m1HAAABf6k5EY8AAAQDAEcwRQIh\n" \
++"AJq9MATR1wSOEoAzSZ8wSGlBW5ExOs0FLQYPdNZuTrp1AiAnHeTq7Poz40TwR7UX\n" \
++"9q7jKjBqAVkp4I+DSlSoaPxNzjANBgkqhkiG9w0BAQsFAAOCAQEAKKhxs3FWqGhC\n" \
++"ldK2hsjGV2Uw4sVKT6ARR0yFpP6TIVs0mhN7tv496dwYwTjT+zns9g1kViB3gyZ/\n" \
++"THJQCbJYjfU8aYxJue4ekecNQAI58B4+fJEbOBuaTFtzUjBFvxS17ledt9nq5NIc\n" \
++"21SS23TbRKVoSpSvRLNyGwlvfexA+kK9XItyjb1GDL5uTz0bO7D4pBMzxv88NyRt\n" \
++"0R+n9mJ9Fh4Gz9xKGFshSShaMQsvyJ+f/w/783+RU+LE/9+Oe/JEifM+/9Ezg2E3\n" \
++"BQp+uxP5DPYna3g5w+OdQJJJUI5MkeafofDzAW6mwxxi8Glha5VS9sMMIlsGVPd5\n" \
++"d+LlsYBmLA==\n" \
 +"-----END CERTIFICATE-----\n"
 \ No newline at end of file
 diff --git a/cpp-tiny/service/Service.cpp.mustache b/cpp-tiny/service/Service.cpp.mustache
-index d164c311..c160f3f6 100644
+index d164c311..1593cff1 100644
 --- a/cpp-tiny/service/Service.cpp.mustache
 +++ b/cpp-tiny/service/Service.cpp.mustache
-@@ -21,6 +21,12 @@ void Tiny::Service::begin(std::string url){
+@@ -21,8 +21,13 @@ void Tiny::Service::begin(std::string url){
  }
  {{/isESP32}}
  
@@ -183,10 +200,26 @@ index d164c311..c160f3f6 100644
 +{
 +    http.setAuthorization(username, password);
 +}
-+ 
 +
  void Tiny::Service::addHeader(std::string key, std::string value){
-     http.addHeader(String(key.c_str()), String(value.c_str()));
+-    http.addHeader(String(key.c_str()), String(value.c_str()));
++    _customheaders.push_back(std::make_tuple(key, value));
+ }
+ 
+ void Tiny::Service::addQueryParam(std::string key, std::string value){
+@@ -39,6 +44,13 @@ int Tiny::Service::sendRequest(std::string url, const char * type, uint8_t * pay
+ 
+     begin(this->url);
+ 
++    if(!_customheaders.empty()) {
++        for (auto const& tuple : this->_customheaders) {
++            http.addHeader(String(std::get<0>(tuple).c_str()), String(std::get<1>(tuple).c_str()));
++        }
++    }
++    _customheaders.begin();
++
+     int httpCode = http.sendRequest(type, payload, size);
+     return httpCode;
  }
 diff --git a/cpp-tiny/service/Service.h.mustache b/cpp-tiny/service/Service.h.mustache
 index a2f70c1a..07cf4ba8 100644
