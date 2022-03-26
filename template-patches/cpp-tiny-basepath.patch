@@ -38,7 +38,7 @@ index dc417d1e..3350b54a 100644
  ### {{classname}}
  |Method | HTTP request | Description|
 diff --git a/cpp-tiny/main.mustache b/cpp-tiny/main.mustache
-index 56170a91..4876405b 100644
+index 56170a91..818b273d 100644
 --- a/cpp-tiny/main.mustache
 +++ b/cpp-tiny/main.mustache
 @@ -1,4 +1,4 @@
@@ -47,7 +47,16 @@ index 56170a91..4876405b 100644
  {{#isESP8266}}
  #include "ESP8266WiFi.h"
  {{/isESP8266}}
-@@ -30,11 +30,15 @@ void setup(){
+@@ -6,6 +6,8 @@
+ const char* ssid = "your wifi name"; // TODO Change wifi name
+ const char* password = "Your wifi password"; //TODO Change wifi password
+ 
++const char* apiKey = "Thy Street API key"; // TODO Change wifi name
++const char* apiSecret = "Thy Street API secret"; //TODO Change wifi password
+ 
+ void setup(){
+     //Initialize serial and wait for port to open:
+@@ -30,11 +32,15 @@ void setup(){
      Serial.print("IP address set: ");
      Serial.println(WiFi.localIP());
  
