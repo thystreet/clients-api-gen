@@ -231,7 +231,7 @@ index d164c311..1593cff1 100644
      return httpCode;
  }
 diff --git a/cpp-tiny/service/Service.h.mustache b/cpp-tiny/service/Service.h.mustache
-index a2f70c1a..07cf4ba8 100644
+index a2f70c1a..7f3a67c7 100644
 --- a/cpp-tiny/service/Service.h.mustache
 +++ b/cpp-tiny/service/Service.h.mustache
 @@ -22,7 +22,8 @@ class Service {
@@ -244,3 +244,11 @@ index a2f70c1a..07cf4ba8 100644
          std::string url = "";
          std::string payload = "";
          std::list<std::tuple<std::string, std::string>> queryParams;
+@@ -44,6 +45,7 @@ class Service {
+         {{/isESP32}}
+ 
+     private:
++        std::list<std::tuple<std::string, std::string>> _customheaders;
+         void begin(std::string url);
+         void prepareRequest();
+         std::string encodeKeyValueTuple(std::list<std::tuple<std::string, std::string>> params);
