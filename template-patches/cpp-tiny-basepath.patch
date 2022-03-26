@@ -38,7 +38,7 @@ index dc417d1e..3350b54a 100644
  ### {{classname}}
  |Method | HTTP request | Description|
 diff --git a/cpp-tiny/main.mustache b/cpp-tiny/main.mustache
-index 56170a91..818b273d 100644
+index 56170a91..2e90d9cc 100644
 --- a/cpp-tiny/main.mustache
 +++ b/cpp-tiny/main.mustache
 @@ -1,4 +1,4 @@
@@ -64,11 +64,11 @@ index 56170a91..818b273d 100644
 -    auto resp = petapi.getPetById(10);
 +    Tiny::DeviceApi api;
 +    api.setAuthorization(apiKey, apiSecret);
-+
-+    Tiny::DeviceStatusDto dto;
-+    dto.setAvailable(true);
-+    dto.setDeviceId("device-id");
-+    auto resp = api.setStatus(dto);
++    
++    Tiny::SetDeviceDetailsDto ddDto;
++    ddDto.setDeviceId('device-id');
++    ddDto.setTariff(pdTRUE);
++    auto resp = api.setDetails(ddDto);
      Serial.println(resp.code);
 -    Tiny::Pet pet = resp.obj;
 -    Serial.println(pet.toJson().dump().c_str());
